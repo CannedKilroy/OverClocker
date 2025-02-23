@@ -1,8 +1,0 @@
-{
-    "cpuid": "https://www.cpuid.com//downloads/cpu-z/cpu-z_2.14-en.zip",
-    "moreclock": "https://www.igorslab.de/installer/MoreClockTool_v119.zip",
-    "gpuz": "https://de2-dl.techpowerup.com/files/1yoBbhx9PxIRqrja7CrvQw/1739787088/GPU-Z.2.62.0.exe+",
-    "wiztree": "https://diskanalyzer.com/files/wiztree_4_24_setup.exe",
-    "hwi": "https://www.sac.sk/download/utildiag/hwi_820.zip",
-    "wagnardsoft": "https://www.wagnardsoft.com/DDU/download/DDU%20v18.0.9.3.exe"
-}
