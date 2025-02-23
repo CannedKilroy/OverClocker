@@ -111,5 +111,6 @@ def main():
         file.truncate(0)
         json.dump(cleaned_links, file, indent=4)
         input("Success. Press Enter to exit")
+
 if __name__ == "__main__":
     main()
