@@ -1,4 +1,4 @@
-# URLs for each software
+# URLs
 urls = {
     'cpuid': 'https://www.cpuid.com/softwares/cpu-z.html',
     'gpuz': 'https://www.techpowerup.com/download/techpowerup-gpu-z/#changelog',
@@ -13,7 +13,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
-# Strip charecters
+# Strip characters
 def strip_chars(a_dict):
     """
     Strip whitespace and other characters

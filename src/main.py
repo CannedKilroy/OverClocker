@@ -64,9 +64,11 @@ def main():
     json_dump = {}
     with open(dl_links_path, 'r+') as file:
         contents = file.read().strip()
-        logger.debug("Current File Contents: ")
-        logger.debug(contents)
+        logger.info("Current File Contents: ")
+        logger.info(contents)
 
+        # Reset Pointer
+        file.seek(0)
         try:
             current_file = json.load(file) if contents else {}
         except JSONDecodeError as e:
@@ -106,7 +108,7 @@ def main():
             new_dict=json_dump,
             logger=logger
             )
-        logger.debug(f"New links to be written: {json_dump}")
+        logger.info(f"New links to be written: {json_dump}")
         file.seek(0)
         file.truncate(0)
         json.dump(cleaned_links, file, indent=4)
