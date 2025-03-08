@@ -1,17 +1,3 @@
-# URLs
-urls = {
-    'cpuid': 'https://www.cpuid.com/softwares/cpu-z.html',
-    'gpuz': 'https://www.techpowerup.com/download/techpowerup-gpu-z/#changelog',
-    'wagnardsoft': 'https://www.computerbase.de/downloads/treiber/grafikkarten/display-driver-uninstaller-ddu/',
-    'hwi': 'https://www.sac.sk/files.php?d=13&l=H',
-    'moreclock': 'https://www.igorslab.de/neue-version-des-morepowertools-mpt-und-finale-des-redbioseditors-rbe-zum-download/',
-    'wiztree': 'https://diskanalyzer.com/download'
-}
-
-# Common headers for scraping
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-}
 
 # Strip characters
 def strip_chars(a_dict):
@@ -23,6 +9,7 @@ def strip_chars(a_dict):
     strips = " \t\n\r+"
     for key, value in a_dict.items():
         a_dict[key] = value.rstrip(strips)
+    print(a_dict)
     return a_dict
 
 
@@ -36,10 +23,12 @@ def dict_differentiate(old_dict: dict, new_dict: dict, logger):
     return_dict = {}
     common_keys = old_dict.keys() & new_dict.keys()
     for key in common_keys:
+
         if old_dict[key] != new_dict[key]:
             return_dict[key] = new_dict[key] + "+"
             logger.info(f"Link updated {new_dict[key]}")
         else:
+            # If they are equal put new link back in without "+"
             return_dict[key] = new_dict[key]
     return_dict.update({k: old_dict[k] for k in old_dict.keys() - new_dict.keys()})
     return_dict.update({k: new_dict[k] for k in new_dict.keys() - old_dict.keys()})

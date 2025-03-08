@@ -1,19 +1,26 @@
 import os
-import requests
 import sys
+import requests
 import json
 import logging
+
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from json.decoder import JSONDecodeError
 from bs4 import BeautifulSoup
 
-from helpers import (
-    urls,
+from config import (
+    urls, 
     headers,
+    dl_file_name,
+    logger_file_name
+)
+
+from helpers import (
     strip_chars,
     dict_differentiate
 )
+
 from site_logic import (
     scrape_cpuid,
     scrape_gpuz,
@@ -23,8 +30,6 @@ from site_logic import (
     scrape_wiztree
 )
 
-dl_file_name = "dl_links.txt"
-logger_file_name = "tq_logger.log"
 logger = logging.getLogger(__name__)
 
 
