@@ -74,6 +74,7 @@ class GPUZScraper(BaseScraper):
             if "Location" in response.headers:
                 download_link = response.headers["Location"]
                 return download_link
+    @staticmethod
     def extract_version(endpath):
         """
         TY chatgiggity for this
@@ -84,13 +85,13 @@ class GPUZScraper(BaseScraper):
         if match:
             return tuple(map(int, match.group(1).split('.')))
         return None
-    def _custom_compare(new_link, old_link):
+    def _custom_compare(self, new_link, old_link):
         """
         """
         old_endpath = PurePosixPath(unquote(urlparse(old_link).path)).parts[-1]
         new_endpath = PurePosixPath(unquote(urlparse(new_link).path)).parts[-1]
-        old_version = extract_version(old_endpath)
-        new_version = extract_version(new_endpath)
+        old_version = self.extract_version(old_endpath)
+        new_version = self.extract_version(new_endpath)
         if new_version > old_version:
             return new_link + "+"
         else:

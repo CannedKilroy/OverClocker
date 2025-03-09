@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 def main():
     current_script_path = Path(__file__).resolve()
-    project_root = current_script_path.parent.parent
+    project_root = current_script_path.parent.parent.parent
 
     dl_links_dir = project_root / "output"
     dl_links_path = dl_links_dir / dl_file_name
@@ -55,7 +55,6 @@ def main():
     logger.info(f"Project Root: {project_root}")
     logger.info(f"Log File Path: {log_file}")
     logger.info(f"Download Links Path: {dl_links_path}")
-
 
     if not dl_links_path.exists():
         dl_links_path.touch()
@@ -84,6 +83,7 @@ def main():
                 dl_link = scraper.scrape(soup, file)
                 # Need to do comparison
                 if url_key in current_file:
+                    old_link = current_file[url_key]
                     cleaned_link = scraper.comparison(new_link=dl_link, old_link=old_link)
                     json_dump[url_key] = cleaned_link
                 # Don't need to do comparison
