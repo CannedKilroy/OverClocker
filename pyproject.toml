@@ -1,9 +1,13 @@
 [tool.poetry]
-name = "OverClocker"
+name = "overclocker"
 version = "0.1.0"
 description = "Overclocking Download link scraper"
 authors = ["CannedKilroy <GenericArt@protonmail.com>"]
 readme = "README.md"
+packages = [
+    {include="overclocker", from="src"}
+]
+package-mode = true
 
 [tool.poetry.dependencies]
 python = "^3.12"

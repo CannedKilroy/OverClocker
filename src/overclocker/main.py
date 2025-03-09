@@ -10,24 +10,18 @@ from json.decoder import JSONDecodeError
 from bs4 import BeautifulSoup
 
 from config import (
-    urls, 
+    urls,
     headers,
     dl_file_name,
     logger_file_name
 )
 
 from helpers import (
-    strip_chars,
-    dict_differentiate
+    strip_chars
 )
 
 from site_logic import (
-    scrape_cpuid,
-    scrape_gpuz,
-    scrape_wagnardsoft,
-    scrape_hwi,
-    scrape_moreclock,
-    scrape_wiztree
+scraper_factory
 )
 
 logger = logging.getLogger(__name__)
@@ -69,8 +63,8 @@ def main():
     json_dump = {}
     with open(dl_links_path, 'r+') as file:
         contents = file.read().strip()
-        logger.info("Current File Contents: ")
-        logger.info(contents)
+        logger.debug("Current File Contents: ")
+        logger.debug(contents)
 
         # Reset Pointer
         file.seek(0)
@@ -81,42 +75,28 @@ def main():
             file.seek(0)
             file.truncate(0)
             current_file = {}
-        
-        for key, url in urls.items():
-            response = requests.get(url, headers=headers)
+
+        for url_key, url in urls.items():
+            scraper = scraper_factory(url)
+            response = scraper.get_response(url, headers=headers)
             if response.status_code == 200:
-                soup = BeautifulSoup(response.text, 'html.parser')
-                if key == 'cpuid':
-                    dl_link = scrape_cpuid(soup, file)
-                    json_dump[key] = dl_link
-                elif key == 'gpuz':
-                    dl_link = scrape_gpuz(soup, file)
-                    json_dump[key] = dl_link
-                elif key == 'wagnardsoft':
-                    dl_link = scrape_wagnardsoft(soup, file)
-                    json_dump[key] = dl_link
-                elif key == 'hwi':
-                    dl_link = scrape_hwi(soup, file)
-                    json_dump[key] = dl_link
-                elif key == 'moreclock':
-                    dl_link = scrape_moreclock(soup, file)
-                    json_dump[key] = dl_link
-                elif key == 'wiztree':
-                    dl_link = scrape_wiztree(soup, file)
-                    json_dump[key] = dl_link
+                soup = scraper.get_soup()
+                dl_link = scraper.scrape(soup, file)
+                # Need to do comparison
+                if url_key in current_file:
+                    cleaned_link = scraper.comparison(new_link=dl_link, old_link=old_link)
+                    json_dump[url_key] = cleaned_link
+                # Don't need to do comparison
+                else:
+                    json_dump[url_key] = dl_link
             else:
-                print(f"Failed to retrieve {key}. HTTP status code: {response.status_code}")
-        
-        # Check links and write to file
-        cleaned_links = dict_differentiate(
-            old_dict=current_file,
-            new_dict=json_dump,
-            logger=logger
-            )
-        logger.info(f"New links to be written: {json_dump}")
+                # Log Error
+                print(f"Failed to retrieve {url_key}. HTTP status code: {response.status_code}")
+
+        logger.debug(f"New links to be written: {json_dump}")
         file.seek(0)
         file.truncate(0)
-        json.dump(cleaned_links, file, indent=4)
+        json.dump(json_dump, file, indent=4)
         input("Success. Press Enter to exit")
 
 if __name__ == "__main__":
