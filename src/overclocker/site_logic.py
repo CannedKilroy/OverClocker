@@ -43,7 +43,7 @@ class BaseScraper(ABC):
 
 class CPUIDScraper(BaseScraper):
     domain = 'cpuid.com'            
-    def scrape(self, soup, file):
+    def scrape(self, soup):
         """Scrape the download link for CPUID (CPU-Z)."""
         download_link_tags = soup.find_all('a', class_='button icon-zip')
         for download_link_tag in download_link_tags:
@@ -55,7 +55,7 @@ class CPUIDScraper(BaseScraper):
 
 class GPUZScraper(BaseScraper):
     domain = 'techpowerup.com'    
-    def scrape(self, soup, file):
+    def scrape(self, soup):
         """Scrape the GPU-Z download link."""
         form_action_url = "https://www.techpowerup.com/download/techpowerup-gpu-z/"
         standard_version = soup.find('li', class_='file clearfix expanded')
@@ -100,7 +100,7 @@ class GPUZScraper(BaseScraper):
 
 class WAGNARDSOFTScraper(BaseScraper):
     domain = "computerbase.de"
-    def scrape(self, soup, file):
+    def scrape(self, soup):
         """Scrape the Wagnardsoft (DDU) download link."""
         form = soup.find("form", class_="download-url__right js-download-launch-form")
         if form:
@@ -121,7 +121,7 @@ class WAGNARDSOFTScraper(BaseScraper):
 
 class HWIScraper(BaseScraper):
     domain = "www.sac.sk"
-    def scrape(self, soup, file):
+    def scrape(self, soup):
         """Scrape the HWiNFO download link."""
         pattern = r"HWiNFO32/HWiNFO64.*- Portable version of sysinfo program for .*"
         table = soup.find('table', {'width': '90%'})
@@ -135,7 +135,7 @@ class HWIScraper(BaseScraper):
 
 class MORECLOCKScraper(BaseScraper):
     domain = "www.igorslab.de"    
-    def scrape(self, soup, file):
+    def scrape(self, soup):
         """Scrape the MoreClockTool download link."""
         rows = soup.find_all('tr')
         for row in rows:
@@ -149,7 +149,7 @@ class MORECLOCKScraper(BaseScraper):
 
 class WIZTREEScrape(BaseScraper):
     domain = "diskanalyzer.com"
-    def scrape(self, soup, file):
+    def scrape(self, soup):
         """Scrape the WizTree download link."""
         download_links = soup.find_all('a', class_='orange btn')
         for link in download_links:
