@@ -74,6 +74,7 @@ class GPUZScraper(BaseScraper):
             if "Location" in response.headers:
                 download_link = response.headers["Location"]
                 return download_link
+
     @staticmethod
     def extract_version(endpath):
         """
