@@ -49,7 +49,7 @@ class CPUIDScraper(BaseScraper):
         for download_link_tag in download_link_tags:
             if 'english' in download_link_tag.text.lower():
                 relative_link = download_link_tag['href']
-                full_download_url = f"https://www.cpuid.com/{relative_link}"
+                full_download_url = f"https://www.cpuid.com{relative_link}"
                 return full_download_url
 
 
